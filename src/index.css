@@ -1,0 +1,21 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+  text-decoration: none;
+}
+:root {
+  --bg-dark: #070c1c;
+  --bg-semmi-dark: #1e2031;
+  --bg-light: #2a2c3d;
+  --red: #ec3013;
+  --green: #4ade80;
+  --orange: #e27e04;
+  --white: #ffffff;
+  --text-gray: #a9a9a9;
+  --text-blue: #505261;
+  --pink: #fdeae7;
+  --green-light: #edfbf2;
+  --white-almost: #1a1a1a;
+}
