@@ -1,5 +1,5 @@
 .container {
-  max-width: 403px;
+  width: min(400px, 90vw);
   padding: 2rem;
   margin: 0 auto;
   background: var(--bg-dark);
@@ -59,4 +59,12 @@
 }
 .close {
   cursor: pointer;
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
 }
