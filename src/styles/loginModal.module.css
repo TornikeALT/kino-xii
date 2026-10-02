@@ -35,6 +35,9 @@
   border: none;
   cursor: pointer;
   background-color: var(--text-blue);
+  color: var(--text-gray);
+  font-size: 1rem;
+  font-weight: 800;
 }
 .inputs input {
   min-height: 40px;
