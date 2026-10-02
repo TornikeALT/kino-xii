@@ -1,16 +1,16 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
-import { ModalProvider } from "./context/ModalContext.js";
+import ModalProvider from "./context/ModalProvider.jsx";
 import "./index.css";
 import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-      <ModalProvider>
+    <ModalProvider>
+      <BrowserRouter>
         <App />
-      </ModalProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ModalProvider>
   </StrictMode>,
 );

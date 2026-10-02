@@ -1,12 +1,22 @@
+import { useModal } from "../context/ModalContext";
 import close from "../images/icons/close.png";
 import styles from "../styles/loginModal.module.css";
 
 function LoginModal() {
+  const { isLoginOpen, closeLogin } = useModal();
+
+  if (!isLoginOpen) return null;
+
   return (
     <div className={styles.container}>
       <div className={styles.login}>
         <h2>Login</h2>
-        <img src={close} alt="close " />
+        <img
+          src={close}
+          alt="close "
+          onClick={closeLogin}
+          className={styles.close}
+        />
       </div>
       <p className={styles.welcome_back}>Welcome back to Kino XII</p>
       <div className={styles.inputs}>
