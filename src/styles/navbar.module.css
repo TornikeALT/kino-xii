@@ -1,0 +1,77 @@
+.xii {
+  color: var(--red);
+  font-weight: 800;
+}
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+}
+.main_logo {
+  display: flex;
+  gap: 3px;
+}
+.logo_sessions {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+.search_signup_login {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.search_signup_login input {
+  width: 380px;
+  height: 41px;
+  border-radius: 20px;
+  border: 1px solid gray;
+  padding: 10px;
+  background: var(--text-gray);
+  margin-right: 2rem;
+}
+.search_input {
+  position: relative;
+  width: 380px;
+  height: 41px;
+  margin-right: 1rem;
+}
+
+.search_input input {
+  width: 100%;
+  height: 100%;
+  padding-left: 30px;
+  box-sizing: border-box;
+}
+
+.search_icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.search_signup_login input::placeholder {
+  color: var(--white);
+}
+.search_signup_login button {
+  height: 41px;
+  width: 96px;
+  border-radius: 20px;
+  border: none;
+}
+.sign_up {
+  background-color: var(--red);
+  color: white;
+  cursor: pointer;
+  font-weight: 800;
+}
+.login {
+  background-color: var(--white);
+  font-weight: 800;
+  cursor: pointer;
+}
+.kino,
+.logo_sessions h3 {
+  color: white;
+}

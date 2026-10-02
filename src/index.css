@@ -21,3 +21,11 @@
   --green-light: #edfbf2;
   --white-almost: #1a1a1a;
 }
+.container {
+  max-width: 1728px;
+  margin: 0 auto;
+  padding: 12px;
+}
+body {
+  background-color: var(--bg-semmi-dark);
+}
