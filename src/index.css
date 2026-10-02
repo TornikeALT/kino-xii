@@ -4,6 +4,8 @@
   box-sizing: border-box;
   list-style-type: none;
   text-decoration: none;
+  font-family: "Overpass", sans-serif;
+  font-style: normal;
 }
 :root {
   --bg-dark: #070c1c;
