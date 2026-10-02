@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ModalContext } from "./ModalContext.jsx";
 
 export default function ModalProvider({ children }) {
-  const [isLoginOpen, setIsLoginOpen] = useState(true);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const openLogin = () => setIsLoginOpen(true);
   const closeLogin = () => setIsLoginOpen(false);
 

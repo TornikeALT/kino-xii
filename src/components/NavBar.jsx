@@ -1,7 +1,9 @@
 import styles from "../styles/navbar.module.css";
 import searchIcon from "../images/icons/search.png";
+import { useModal } from "../context/ModalContext";
 
 function NavBar() {
+  const { openLogin } = useModal();
   return (
     <div className="container">
       <div className={styles.navigation}>
@@ -18,7 +20,9 @@ function NavBar() {
             <input type="text" placeholder="Search films and live events" />
           </div>
           <button className={styles.sign_up}>Sign Up</button>
-          <button className={styles.login}>Log In</button>
+          <button className={styles.login} onClick={openLogin}>
+            Log In
+          </button>
         </div>
       </div>
     </div>
