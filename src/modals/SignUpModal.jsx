@@ -1,8 +1,12 @@
+import { useModal } from "../context/ModalContext";
 import close from "../images/icons/close.png";
 import upload from "../images/icons/upload.png";
 import styles from "../styles/signUpModal.module.css";
 
 function SignUpModal() {
+  const { isRegisterOpen, closeRegister, openLogin } = useModal();
+
+  if (!isRegisterOpen) return null;
   return (
     <div className={styles.modal} role="dialog">
       <header className={styles.modal__header}>
@@ -10,11 +14,11 @@ function SignUpModal() {
           <h1 id="signup-title">Sign up</h1>
           <p className={styles.subtitle}>Welcome to Kino XII</p>
         </div>
-        <img src={close} className={styles.close} />
+        <img src={close} className={styles.close} onClick={closeRegister} />
       </header>
       <form className={styles.form} id="signup-form">
         <div className={styles.avatar}>
-          <label className={styles.avatar__btn} for="avatar">
+          <label className={styles.avatar__btn} htmlFor="avatar">
             <img src={upload} alt="upload" />
           </label>
           <input
@@ -30,49 +34,49 @@ function SignUpModal() {
         </div>
 
         <div className={styles.field}>
-          <label for="username">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             id="username"
             name="username"
             placeholder="User"
-            autocomplete="username"
+            autoComplete="username"
             required
           />
         </div>
 
         <div className={styles.field}>
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
             name="email"
             placeholder="example@gmail.com"
-            autocomplete="email"
+            autoComplete="email"
             required
           />
         </div>
 
         <div className={styles.row}>
           <div className={styles.field}>
-            <label for="password">Password</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
               name="password"
               placeholder="••••••••"
-              autocomplete="new-password"
+              autoComplete="new-password"
               required
             />
           </div>
           <div className={styles.field}>
-            <label for="confirm">Confirm password</label>
+            <label htmlFor="confirm">Confirm password</label>
             <input
               type="password"
               id="confirm"
               name="confirm"
               placeholder="••••••••"
-              autocomplete="new-password"
+              autoComplete="new-password"
               required
             />
           </div>
@@ -83,7 +87,10 @@ function SignUpModal() {
         </button>
       </form>
       <p className={styles.login}>
-        Already have an account? <a href="#">Log in</a>
+        Already have an account?{" "}
+        <a href="#" onClick={openLogin}>
+          Log in
+        </a>
       </p>
     </div>
   );

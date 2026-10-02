@@ -3,7 +3,7 @@ import close from "../images/icons/close.png";
 import styles from "../styles/loginModal.module.css";
 
 function LoginModal() {
-  const { isLoginOpen, closeLogin } = useModal();
+  const { isLoginOpen, closeLogin, openSignUp } = useModal();
 
   if (!isLoginOpen) return null;
 
@@ -43,7 +43,7 @@ function LoginModal() {
       <button className={styles.login_btn}>Log In</button>
       <div className={styles.sign_up}>
         <p>Don't have an account?</p>
-        <span>Sign Up</span>
+        <span onClick={openSignUp}>Sign Up</span>
       </div>
     </div>
   );
