@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import LoginModal from "../modals/LoginModal";
 
 function MainLayOut() {
   return (
@@ -9,7 +10,10 @@ function MainLayOut() {
       <main>
         <Outlet />
       </main>
+
       <Footer />
+
+      <LoginModal />
     </>
   );
 }
