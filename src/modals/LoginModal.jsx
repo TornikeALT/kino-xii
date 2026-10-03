@@ -1,9 +1,24 @@
 import { useModal } from "../context/ModalContext";
+import { useEffect } from "react";
 import close from "../images/icons/close.png";
 import styles from "../styles/loginModal.module.css";
 
 function LoginModal() {
   const { isLoginOpen, closeLogin, openSignUp } = useModal();
+
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        closeLogin();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [closeLogin]);
 
   if (!isLoginOpen) return null;
 

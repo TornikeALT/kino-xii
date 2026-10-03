@@ -1,10 +1,24 @@
+import { useEffect } from "react";
 import { useModal } from "../context/ModalContext";
+
 import close from "../images/icons/close.png";
 import upload from "../images/icons/upload.png";
 import styles from "../styles/signUpModal.module.css";
 
 function SignUpModal() {
   const { isRegisterOpen, closeRegister, openLogin } = useModal();
+
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        closeRegister();
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [closeRegister]);
 
   if (!isRegisterOpen) return null;
   return (

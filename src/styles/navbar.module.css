@@ -25,10 +25,10 @@
   width: 380px;
   height: 41px;
   border-radius: 20px;
-  border: 1px solid gray;
+  border: none;
   padding: 10px;
-  background: var(--text-gray);
   margin-right: 2rem;
+  background: rgba(255, 255, 255, 0.14);
 }
 .search_input {
   position: relative;
