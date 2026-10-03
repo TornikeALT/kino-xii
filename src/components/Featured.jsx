@@ -46,9 +46,25 @@ function Featured() {
 
   const movie = movies[currentIndex];
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) {
+    return (
+      <div className={styles.featured}>
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <span>Loading movies...</span>
+        </div>
+      </div>
+    );
+  }
 
+  if (error) {
+    return (
+      <div className={styles.error}>
+        <h2>Something went wrong</h2>
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <div
       className={styles.featured}
