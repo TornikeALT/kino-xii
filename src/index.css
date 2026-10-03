@@ -20,6 +20,8 @@
   --pink: #fdeae7;
   --green-light: #edfbf2;
   --white-almost: #1a1a1a;
+  --page-padding: max(28px, calc((100vw - 1728px) / 2));
+  /*calculate for contenet bellow navigation be same line */
 }
 .container {
   max-width: 1728px;
@@ -34,4 +36,7 @@
 
 .hero {
   position: relative;
+}
+body {
+  background-color: var(--bg-semmi-dark);
 }
