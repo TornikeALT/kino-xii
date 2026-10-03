@@ -1,0 +1,8 @@
+.featured {
+  width: 100%;
+  height: 55vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
