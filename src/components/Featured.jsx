@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "../styles/featured.module.css";
+import ticket from "../images/icons/ticket.png";
 
 function Featured() {
   const [movies, setMovies] = useState([]);
@@ -101,7 +102,10 @@ function Featured() {
         <p className={styles.synopsis}>{movie.synopsis}</p>
 
         <div className={styles.actions}>
-          <button className={styles.primary}>Buy tickets</button>
+          <div className={styles.buy}>
+            <img src={ticket} alt="ticket" />
+            <span>Buy tickets</span>
+          </div>
           <button className={styles.secondary}>All sessions</button>
         </div>
       </div>

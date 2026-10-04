@@ -173,3 +173,16 @@
     transform: rotate(360deg);
   }
 }
+.buy {
+  padding: 13px 22px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: var(--red);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
