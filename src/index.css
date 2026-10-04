@@ -43,5 +43,10 @@ body {
 .playingNow_wrapper {
   max-width: 1728px;
   margin: 0 auto;
-  padding-top: 3rem;
+  padding: 3rem 0;
+}
+.divider {
+  height: 2px;
+  background: var(--bg-light);
+  width: 100%;
 }

@@ -8,6 +8,7 @@ function HomePage() {
       <section className="playingNow_wrapper">
         <PlayingNowCard />
       </section>
+      <div className="divider" />
     </div>
   );
 }
