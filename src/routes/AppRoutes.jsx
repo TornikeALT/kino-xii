@@ -9,10 +9,10 @@ function AppRoutes() {
   return (
     <Routes>
       <Route element={<MainLayOut />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/sessions" element={<SessionsPage />} />
-        <Route path="/movie/:id" element={<MovieDetailsPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route index element={<HomePage />} />
+        <Route path="sessions" element={<SessionsPage />} />
+        <Route path="movie/:id" element={<MovieDetailsPage />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
     </Routes>
   );

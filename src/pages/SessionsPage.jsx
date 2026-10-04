@@ -1,5 +1,7 @@
+import NavBar from "../components/NavBar";
+
 function SessionsPage() {
-  return <p>Sessions Page</p>;
+  return <NavBar />;
 }
 
 export default SessionsPage;

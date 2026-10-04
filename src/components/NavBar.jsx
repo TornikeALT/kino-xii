@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import styles from "../styles/navbar.module.css";
 import searchIcon from "../images/icons/search.png";
 import { useModal } from "../context/ModalContext";
@@ -5,14 +6,16 @@ import { useModal } from "../context/ModalContext";
 function NavBar() {
   const { openLogin, openSignUp } = useModal();
   return (
-    <div className="container">
+    <header className="container">
       <div className={styles.navigation}>
         <div className={styles.logo_sessions}>
           <div className={styles.main_logo}>
             <h2 className={styles.kino}>KINO</h2>
             <h2 className={styles.xii}>XII</h2>
           </div>
-          <h3>SESSIONS</h3>
+          <Link to="/sessions" className={styles.link}>
+            SESSIONS
+          </Link>
         </div>
         <div className={styles.search_signup_login}>
           <div className={styles.search_input}>
@@ -27,7 +30,7 @@ function NavBar() {
           </button>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 
