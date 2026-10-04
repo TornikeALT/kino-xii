@@ -1,0 +1,27 @@
+.main_logo {
+  display: flex;
+  gap: 3px;
+}
+.xii {
+  color: var(--red);
+  font-weight: 800;
+  font-size: 14px;
+}
+.kino {
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+}
+footer {
+  max-width: 1728px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  display: flex;
+  justify-content: space-between;
+  border-top: 2px solid var(--bg-light);
+}
+.rights {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-gray);
+}

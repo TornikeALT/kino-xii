@@ -74,7 +74,13 @@ function Featured() {
       }}
     >
       <div className={styles.featured_content}>
-        <span className={styles.badge}>Premiere · {movie.releaseDate}</span>
+        <span className={styles.badge}>
+          Premiere ·{"  "}
+          {new Date(movie.releaseDate).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+          })}
+        </span>
 
         <h2>{movie.title}</h2>
 
