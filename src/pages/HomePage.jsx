@@ -1,3 +1,4 @@
+import ComingSoonCards from "../components/ComingSoonCards.jsx";
 import Featured from "../components/Featured.jsx";
 import PlayingNowCard from "../components/PlayingNowCard.jsx";
 
@@ -9,6 +10,7 @@ function HomePage() {
         <PlayingNowCard />
       </section>
       <div className="divider" />
+      <ComingSoonCards />
     </div>
   );
 }
