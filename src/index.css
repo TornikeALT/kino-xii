@@ -38,5 +38,10 @@
   position: relative;
 }
 body {
-  background-color: var(--bg-semmi-dark);
+  background-color: var(--bg-dark);
+}
+.playingNow_wrapper {
+  max-width: 1728px;
+  margin: 0 auto;
+  padding-top: 3rem;
 }

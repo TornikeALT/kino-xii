@@ -1,0 +1,116 @@
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.navigation h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: white;
+}
+
+.navigation .see_all {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--red);
+  cursor: pointer;
+}
+
+/* ---------- Horizontal scroller ---------- */
+.card_wrapper {
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, #000 92%, transparent 100%);
+}
+
+.card_wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------- Card ---------- */
+.card {
+  flex: 0 0 172px;
+  box-sizing: border-box;
+  padding: 16px;
+  background: var(--bg-semmi-dark);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 160px;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 155 / 198;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+.card:nth-child(n + 7) {
+  display: none;
+}
+.card .title {
+  margin: 12px 0 4px;
+  font-size: 18px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+}
+
+.card .meta {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--text-gray);
+  font-weight: 400;
+}
+
+.card .age {
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(236, 48, 19, 0.1);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.price_buy {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price_buy .price {
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.price_buy button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--red);
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
+
+.price_buy button:hover {
+  filter: brightness(1.15);
+}
