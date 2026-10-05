@@ -2,9 +2,14 @@ import { Link } from "react-router";
 import styles from "../styles/navbar.module.css";
 import searchIcon from "../images/icons/search.png";
 import { useModal } from "../context/ModalContext";
+import { useAuth } from "../context/AuthContext";
 
 function NavBar() {
   const { openLogin, openSignUp } = useModal();
+
+  // Aqedan testia
+  const { user } = useAuth();
+  // amis zemot testia testamde
   return (
     <header className="container">
       <div className={styles.navigation}>
@@ -28,6 +33,8 @@ function NavBar() {
           <button className={styles.login} onClick={openLogin}>
             Log In
           </button>
+          {/* testia qveda spani useris gamosachened */}
+          {user ? <span>{user.username}</span> : ""}
         </div>
       </div>
     </header>

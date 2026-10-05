@@ -90,6 +90,9 @@ h1 {
   border: 1px solid transparent;
   border-radius: 14px;
   background-color: var(--bg-semmi-dark);
+  color: var(--text-gray);
+  font-size: 12px;
+  font-weight: 600;
 }
 .field input::placeholder {
   color: var(--text-gray);

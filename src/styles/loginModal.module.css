@@ -45,6 +45,9 @@
   border: none;
   padding: 0 20px;
   background-color: var(--bg-semmi-dark);
+  color: var(--text-gray);
+  font-size: 12px;
+  font-weight: 600;
 }
 .sign_up {
   display: flex;

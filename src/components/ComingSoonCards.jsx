@@ -43,7 +43,6 @@ function ComingSoonCards() {
       </div>
     );
   }
-  console.log(movies);
 
   return (
     <>
