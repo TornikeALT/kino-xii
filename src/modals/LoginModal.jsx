@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+
 import { useModal } from "../context/ModalContext";
 import { useAuth } from "../context/AuthContext";
 import close from "../images/icons/close.png";
+import accepted from "../images/icons/green.png";
+import reject from "../images/icons/reject.png";
 import styles from "../styles/loginModal.module.css";
 
 function LoginModal() {
@@ -12,65 +15,65 @@ function LoginModal() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
 
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === "Escape") {
-        resetForm();
-        closeLogin();
-      }
-    };
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isPasswordValid = password.length >= 3;
+  const isFormValid = isEmailValid && isPasswordValid;
 
-    document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [closeLogin]);
-
-  // Each time the modal opens: clear the old error and password
-  // useEffect(() => {
-  //   if (isLoginOpen) {
-  //     setError("");
-  //     setPassword("");
-  //   }
-  // }, [isLoginOpen]);
+  const showEmailError = emailTouched && email.length > 0 && !isEmailValid;
+  const showPasswordError = passwordTouched && !isPasswordValid;
 
   function resetForm() {
     setEmail("");
     setPassword("");
     setError("");
+    setEmailTouched(false);
+    setPasswordTouched(false);
   }
 
   function handleClose() {
     resetForm();
     closeLogin();
   }
+
   function handleSignUpClick() {
     resetForm();
     openSignUp();
   }
 
+  useEffect(() => {
+    if (!isLoginOpen) return;
+
+    const handleEscape = (e) => {
+      if (e.key === "Escape") handleClose();
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isLoginOpen]);
+
   if (!isLoginOpen) return null;
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!isFormValid || submitting) return;
+
     setError("");
     setSubmitting(true);
 
     try {
-      console.log(email, password);
-      await login(email, password); // closes the modal itself on success
-      setEmail("");
-      setPassword("");
+      await login(email, password);
+      resetForm();
     } catch (err) {
-      // 401 = wrong credentials: stay open, keep the email, show the message
       setError(
         err.status === 401
           ? "Wrong email or password."
           : err.message || "Something went wrong. Try again.",
       );
       setPassword("");
+      setPasswordTouched(false);
     } finally {
       setSubmitting(false);
     }
@@ -82,9 +85,10 @@ function LoginModal() {
         className={styles.container}
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
+        noValidate
       >
         <div className={styles.login}>
-          <h2>Login</h2>
+          <h2>Log in</h2>
           <img
             src={close}
             alt="close"
@@ -93,49 +97,88 @@ function LoginModal() {
           />
         </div>
         <p className={styles.welcome_back}>Welcome back to Kino XII</p>
+
         <div className={styles.inputs}>
-          <div className={styles.mail}>
-            <label htmlFor="user-email">Email</label>
-            <input
-              type="email"
-              id="user-email"
-              name="email"
-              placeholder="example@gmail.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          {/* EMAIL */}
+          <div className={styles.field}>
+            <label
+              htmlFor="user-email"
+              className={showEmailError ? styles.label_error : ""}
+            >
+              Email
+            </label>
+            <div className={styles.input_wrap}>
+              <input
+                id="user-email"
+                name="email"
+                placeholder="example@gmail.com"
+                value={email}
+                className={showEmailError ? styles.error_border : ""}
+                onChange={(e) => setEmail(e.target.value)}
+                onBlur={() => setEmailTouched(true)}
+                required
+              />
+              {isEmailValid && (
+                <img src={accepted} alt="valid" className={styles.icon} />
+              )}
+              {showEmailError && (
+                <img src={reject} alt="invalid" className={styles.icon} />
+              )}
+            </div>
+            {showEmailError && (
+              <p className={styles.error}>Enter a valid email</p>
+            )}
           </div>
-          <div className={styles.password}>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="●●●●●●●●"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+
+          {/* PASSWORD */}
+          <div className={styles.field}>
+            <label
+              htmlFor="password"
+              className={showPasswordError ? styles.label_error : ""}
+            >
+              Password
+            </label>
+            <div className={styles.input_wrap}>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="●●●●●●●●"
+                value={password}
+                className={showPasswordError ? styles.error_border : ""}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordTouched(true);
+                }}
+                onBlur={() => setPasswordTouched(true)}
+                required
+              />
+              {showPasswordError && (
+                <img src={reject} alt="invalid" className={styles.icon} />
+              )}
+              {isPasswordValid && (
+                <img src={accepted} alt="valid" className={styles.icon} />
+              )}
+            </div>
+            {showPasswordError && (
+              <p className={styles.error}>At least 3 characters</p>
+            )}
           </div>
         </div>
 
-        {error && (
-          <p className={styles.error} role="alert">
-            {error}
-          </p>
-        )}
+        {error && <p className={styles.error}>{error}</p>}
 
         <button
           type="submit"
           className={styles.login_btn}
-          disabled={submitting}
+          disabled={!isFormValid || submitting}
         >
-          {submitting ? "Logging in..." : "Log In"}
+          Log in
         </button>
+
         <div className={styles.sign_up}>
           <p>Don't have an account?</p>
-          <span onClick={handleSignUpClick}>Sign Up</span>
+          <span onClick={handleSignUpClick}>Sign up</span>
         </div>
       </form>
     </div>
