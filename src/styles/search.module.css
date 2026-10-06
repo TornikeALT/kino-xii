@@ -1,0 +1,36 @@
+.search {
+  background-color: var(--bg-dark);
+  color: white;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 3rem;
+}
+.search h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+.search p {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-gray);
+}
+.btn {
+  background-color: #ffffff1a;
+  color: white;
+  font-size: 14;
+  font-weight: 800;
+  min-height: 41px;
+  max-width: 183px;
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}

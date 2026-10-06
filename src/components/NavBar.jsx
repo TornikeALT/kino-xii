@@ -4,14 +4,15 @@ import { useAuth } from "../context/AuthContext";
 import styles from "../styles/navbar.module.css";
 import searchIcon from "../images/icons/search.png";
 import UserMenu from "./UserMenu";
+import Search from "./Search";
+import { useState } from "react";
 
 function NavBar() {
   const { openLogin, openSignUp } = useModal();
+  const [search, setSearch] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  // Aqedan testia
   const { user } = useAuth();
-  // amis zemot testia testamde
-  console.log(user);
 
   return (
     <header className="container">
@@ -28,10 +29,16 @@ function NavBar() {
         <div className={styles.search_signup_login}>
           <div className={styles.search_input}>
             <img src={searchIcon} alt="search" className={styles.search_icon} />
-            <input type="text" placeholder="Search films and live events" />
+            <input
+              type="text"
+              placeholder="Search films and live events"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
+            />
+            <Search search={search} isSearchFocused={isSearchFocused} />
           </div>
-
-          {/* testia qveda spani useris gamosachened */}
           {user ? (
             <UserMenu />
           ) : (

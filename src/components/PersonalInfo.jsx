@@ -23,7 +23,6 @@ function PersonalInfo() {
     apiFetch("/filter-options")
       .then((res) => res.json())
       .then((body) => {
-        console.log(body); // check the shape, then adjust the line below
         setVenues(body.data?.venues ?? []);
       })
       .catch(() => {});
