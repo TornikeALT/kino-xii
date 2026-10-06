@@ -1,8 +1,16 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { useModal } from "./ModalContext";
 
-import { clearToken, loginRequest, registerRequest, setToken } from "../api";
+import {
+  apiFetch,
+  clearToken,
+  getToken,
+  loginRequest,
+  registerRequest,
+  setToken,
+  updateProfileRequest,
+} from "../api";
 
 export default function AuthProvider({ children }) {
   const { closeLogin, closeRegister } = useModal();
@@ -15,15 +23,51 @@ export default function AuthProvider({ children }) {
     }
   });
 
+  // REFRESH USER FROM SERVER (once, on app load)
+  useEffect(() => {
+    if (!getToken()) return; // not logged in, nothing to refresh
+
+    let cancelled = false;
+
+    async function refreshUser() {
+      try {
+        const res = await apiFetch("/me");
+
+        if (res.status === 401) {
+          // apiFetch already cleared the token; clear the saved user too
+          localStorage.removeItem("user");
+          if (!cancelled) setUser(null);
+          return;
+        }
+
+        if (!res.ok) return; // server hiccup: keep the saved user for now
+
+        const body = await res.json();
+        const fresh = body.data?.user ?? body.data; // adjust to the real shape
+
+        if (!cancelled && fresh) {
+          localStorage.setItem("user", JSON.stringify(fresh));
+          setUser(fresh);
+        }
+      } catch {
+        // network error: keep the saved user, try again on next load
+      }
+    }
+
+    refreshUser();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   // LOGIN
   const login = useCallback(
     async (email, password) => {
       const { token, user } = await loginRequest(email, password);
 
       setToken(token);
-
       localStorage.setItem("user", JSON.stringify(user));
-
       setUser(user);
 
       closeLogin();
@@ -37,9 +81,7 @@ export default function AuthProvider({ children }) {
       const { token, user } = await registerRequest(fields);
 
       setToken(token);
-
       localStorage.setItem("user", JSON.stringify(user));
-
       setUser(user);
 
       closeRegister();
@@ -48,12 +90,29 @@ export default function AuthProvider({ children }) {
   );
 
   // LOGOUT
-  const logout = useCallback(() => {
-    clearToken();
+  const logout = useCallback(async () => {
+    try {
+      await apiFetch("/logout", { method: "POST" }); // revoke token on server
+    } catch {
+      // network error: still log out locally
+    } finally {
+      clearToken();
+      localStorage.removeItem("user");
+      setUser(null);
+    }
+  }, []);
 
-    localStorage.removeItem("user");
+  // UPDATE PROFILE
+  const updateProfile = useCallback(async (data) => {
+    const updated = await updateProfileRequest(data);
 
-    setUser(null);
+    setUser((prev) => {
+      const next = { ...prev, ...updated };
+      localStorage.setItem("user", JSON.stringify(next));
+      return next;
+    });
+
+    return updated;
   }, []);
 
   return (
@@ -63,6 +122,7 @@ export default function AuthProvider({ children }) {
         login,
         register,
         logout,
+        updateProfile,
       }}
     >
       {children}

@@ -1,0 +1,52 @@
+/* profilePage.module.css */
+.title {
+  margin: 2rem 0 1.5rem;
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.tabs {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.25rem;
+  margin-bottom: -1px;
+  color: var(--text-gray);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.tab_active {
+  color: white;
+  border-bottom-color: var(--red);
+}
+
+.badge {
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--red);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.content {
+  padding: 2rem 0 4rem;
+}
+.container {
+  max-width: 1728px;
+  margin: 10rem auto;
+}

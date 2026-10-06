@@ -5,6 +5,7 @@ import arrowDown from "../images/icons/arrow.png";
 import profileIcon from "../images/icons/user.png";
 import ticket from "../images/icons/ticket.png";
 import logoutIcon from "../images/icons/logout.png";
+import green from "../images/icons/green.png";
 import styles from "../styles/userMenu.module.css";
 
 function getInitials(name = "") {
@@ -47,7 +48,7 @@ function UserMenu() {
   const fullName = user.fullName || user.username;
   const firstName = fullName.split(" ")[0];
 
-  const isProfileIncomplete = !user.phone || !user.avatar;
+  const isProfileIncomplete = user.profileComplete;
 
   const avatar = (
     <div className={styles.avatar}>
@@ -56,7 +57,8 @@ function UserMenu() {
       ) : (
         <span>{getInitials(fullName)}</span>
       )}
-      {isProfileIncomplete && <i className={styles.dot} />}
+      {!isProfileIncomplete && <i className={styles.dot} />}
+      {isProfileIncomplete && <i className={styles.dot_green} />}
     </div>
   );
 
@@ -91,7 +93,7 @@ function UserMenu() {
             </div>
           </div>
 
-          {isProfileIncomplete && (
+          {!isProfileIncomplete && (
             <div className={styles.notice}>
               <p className={styles.notice_title}>Profile incomplete</p>
               <p className={styles.notice_text}>
@@ -99,9 +101,15 @@ function UserMenu() {
               </p>
             </div>
           )}
+          {isProfileIncomplete && (
+            <div className={styles.notice_completed}>
+              <span>Profile Complete</span>
+              <img src={green} alt="green accept" />
+            </div>
+          )}
 
           <Link
-            to="profile"
+            to="/profile"
             className={styles.item}
             onClick={() => setOpen(false)}
           >
@@ -109,7 +117,7 @@ function UserMenu() {
             My Profile
           </Link>
           <Link
-            to="tickets"
+            to="/profile/tickets"
             className={styles.item}
             onClick={() => setOpen(false)}
           >
@@ -134,5 +142,3 @@ function UserMenu() {
 }
 
 export default UserMenu;
-
-// my profiles child routshi chirdeba tickets albat naxe

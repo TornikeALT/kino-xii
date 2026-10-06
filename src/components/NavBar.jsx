@@ -17,10 +17,10 @@ function NavBar() {
     <header className="container">
       <div className={styles.navigation}>
         <div className={styles.logo_sessions}>
-          <div className={styles.main_logo}>
+          <Link to="/" className={styles.main_logo}>
             <h2 className={styles.kino}>KINO</h2>
             <h2 className={styles.xii}>XII</h2>
-          </div>
+          </Link>
           <Link to="/sessions" className={styles.link}>
             SESSIONS
           </Link>
