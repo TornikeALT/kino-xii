@@ -109,7 +109,7 @@ function UserMenu() {
             My Profile
           </Link>
           <Link
-            to="/tickets"
+            to="tickets"
             className={styles.item}
             onClick={() => setOpen(false)}
           >

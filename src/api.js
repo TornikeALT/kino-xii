@@ -81,6 +81,47 @@ export async function registerRequest({
   return body.data;
 }
 
+// UPDATE PROFILE
+export async function updateProfileRequest({
+  fullName,
+  mobileNumber,
+  dateOfBirth,
+  preferredVenueId,
+  avatar,
+}) {
+  const form = new FormData();
+
+  form.append("fullName", fullName);
+  form.append("mobileNumber", mobileNumber);
+  form.append("dateOfBirth", dateOfBirth);
+
+  if (preferredVenueId) {
+    form.append("preferredVenueId", preferredVenueId);
+  }
+
+  if (avatar) {
+    form.append("avatar", avatar);
+  }
+
+  const res = await apiFetch("/profile", {
+    method: "PUT",
+    body: form,
+  });
+
+  const body = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    const error = new Error(body.message || "Profile update failed");
+
+    error.status = res.status;
+    error.errors = body.errors || {};
+
+    throw error;
+  }
+
+  return body.data;
+}
+
 // PROTECTED REQUESTS
 export async function apiFetch(path, options = {}) {
   const token = getToken();
