@@ -71,8 +71,6 @@ function UserMenu() {
         type="button"
         className={styles.trigger}
         onClick={() => setOpen((prev) => !prev)}
-        aria-haspopup="menu"
-        aria-expanded={open}
       >
         {avatar}
         <span className={styles.name}>{firstName}</span>
@@ -84,7 +82,7 @@ function UserMenu() {
       </button>
 
       {open && (
-        <div className={styles.dropdown} role="menu">
+        <div className={styles.dropdown}>
           <div className={styles.user_info}>
             {avatar}
             <div>
@@ -105,7 +103,6 @@ function UserMenu() {
           <Link
             to="profile"
             className={styles.item}
-            role="menuitem"
             onClick={() => setOpen(false)}
           >
             <img src={profileIcon} alt="user" />
@@ -114,7 +111,6 @@ function UserMenu() {
           <Link
             to="/tickets"
             className={styles.item}
-            role="menuitem"
             onClick={() => setOpen(false)}
           >
             <img src={ticket} alt="ticket" />
@@ -126,7 +122,6 @@ function UserMenu() {
           <button
             type="button"
             className={`${styles.item} ${styles.logout}`}
-            role="menuitem"
             onClick={handleLogout}
           >
             <img src={logoutIcon} alt="logout" />
