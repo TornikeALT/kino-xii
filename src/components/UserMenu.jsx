@@ -1,0 +1,143 @@
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
+import { useAuth } from "../context/AuthContext";
+import arrowDown from "../images/icons/arrow.png";
+import profileIcon from "../images/icons/user.png";
+import ticket from "../images/icons/ticket.png";
+import logoutIcon from "../images/icons/logout.png";
+import styles from "../styles/userMenu.module.css";
+
+function getInitials(name = "") {
+  return name
+    .trim()
+    .split(/\s+/)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
+function UserMenu() {
+  const { user, logout } = useAuth();
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    const handleEscape = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [open]);
+
+  if (!user) return null;
+
+  const fullName = user.fullName || user.username;
+  const firstName = fullName.split(" ")[0];
+
+  const isProfileIncomplete = !user.phone || !user.avatar;
+
+  const avatar = (
+    <div className={styles.avatar}>
+      {user.avatar ? (
+        <img src={user.avatar} alt={user.avatar} />
+      ) : (
+        <span>{getInitials(fullName)}</span>
+      )}
+      {isProfileIncomplete && <i className={styles.dot} />}
+    </div>
+  );
+
+  function handleLogout() {
+    setOpen(false);
+    logout();
+  }
+
+  return (
+    <div className={styles.wrapper} ref={menuRef}>
+      <button
+        type="button"
+        className={styles.trigger}
+        onClick={() => setOpen((prev) => !prev)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+      >
+        {avatar}
+        <span className={styles.name}>{firstName}</span>
+        <img
+          src={arrowDown}
+          alt="arrow down"
+          className={`${styles.arrow} ${open ? styles.arrow_open : ""}`}
+        />
+      </button>
+
+      {open && (
+        <div className={styles.dropdown} role="menu">
+          <div className={styles.user_info}>
+            {avatar}
+            <div>
+              <p className={styles.full_name}>{fullName}</p>
+              <p className={styles.email}>{user.email}</p>
+            </div>
+          </div>
+
+          {isProfileIncomplete && (
+            <div className={styles.notice}>
+              <p className={styles.notice_title}>Profile incomplete</p>
+              <p className={styles.notice_text}>
+                Please complete your profile to enable booking
+              </p>
+            </div>
+          )}
+
+          <Link
+            to="profile"
+            className={styles.item}
+            role="menuitem"
+            onClick={() => setOpen(false)}
+          >
+            <img src={profileIcon} alt="user" />
+            My Profile
+          </Link>
+          <Link
+            to="/tickets"
+            className={styles.item}
+            role="menuitem"
+            onClick={() => setOpen(false)}
+          >
+            <img src={ticket} alt="ticket" />
+            My Tickets
+          </Link>
+
+          <div className={styles.divider} />
+
+          <button
+            type="button"
+            className={`${styles.item} ${styles.logout}`}
+            role="menuitem"
+            onClick={handleLogout}
+          >
+            <img src={logoutIcon} alt="logout" />
+            Log out
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default UserMenu;
+
+// my profiles child routshi chirdeba tickets albat naxe

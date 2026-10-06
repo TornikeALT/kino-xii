@@ -81,3 +81,21 @@
   font-weight: 600;
   cursor: pointer;
 }
+.nav_profile {
+  display: flex;
+  gap: 1rem;
+  border: 2px solid red;
+  align-items: center;
+  color: white;
+}
+.nav_profile img {
+  max-width: 40px;
+}
+.name {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow:
+    0 0 4px rgba(0, 0, 0, 0.8),
+    0 0 2px rgba(0, 0, 0, 1);
+}

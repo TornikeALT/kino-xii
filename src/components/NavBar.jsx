@@ -1,8 +1,9 @@
 import { Link } from "react-router";
-import styles from "../styles/navbar.module.css";
-import searchIcon from "../images/icons/search.png";
 import { useModal } from "../context/ModalContext";
 import { useAuth } from "../context/AuthContext";
+import styles from "../styles/navbar.module.css";
+import searchIcon from "../images/icons/search.png";
+import UserMenu from "./UserMenu";
 
 function NavBar() {
   const { openLogin, openSignUp } = useModal();
@@ -10,6 +11,8 @@ function NavBar() {
   // Aqedan testia
   const { user } = useAuth();
   // amis zemot testia testamde
+  console.log(user);
+
   return (
     <header className="container">
       <div className={styles.navigation}>
@@ -27,14 +30,28 @@ function NavBar() {
             <img src={searchIcon} alt="search" className={styles.search_icon} />
             <input type="text" placeholder="Search films and live events" />
           </div>
-          <button className={styles.sign_up} onClick={openSignUp}>
-            Sign Up
-          </button>
-          <button className={styles.login} onClick={openLogin}>
-            Log In
-          </button>
+
           {/* testia qveda spani useris gamosachened */}
-          {user ? <span>{user.username}</span> : ""}
+          {user ? (
+            <UserMenu />
+          ) : (
+            <>
+              <button
+                type="button"
+                className={styles.sign_up}
+                onClick={openSignUp}
+              >
+                Sign Up
+              </button>
+              <button
+                type="button"
+                className={styles.login}
+                onClick={openLogin}
+              >
+                Log In
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>
