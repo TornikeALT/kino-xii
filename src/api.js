@@ -122,6 +122,24 @@ export async function updateProfileRequest({
   return body.data;
 }
 
+// SEARCH MOVIES
+export async function searchMovies(query) {
+  const res = await apiFetch(`/search?q=${encodeURIComponent(query)}`);
+
+  const body = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    const error = new Error(body.message || "Search failed");
+
+    error.status = res.status;
+    error.errors = body.errors || {};
+
+    throw error;
+  }
+
+  return body.data;
+}
+
 // PROTECTED REQUESTS
 export async function apiFetch(path, options = {}) {
   const token = getToken();
