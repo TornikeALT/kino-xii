@@ -1,0 +1,155 @@
+.sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  background: var(--bg-semmi-dark);
+  border-radius: 20px;
+  color: white;
+}
+
+.sidebar h3 {
+  margin: 0 0 1.25rem;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* each section: VENUE, DATE, FORMAT, ... */
+.group {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.group h4 {
+  margin: 0 0 0.75rem;
+  color: var(--text-gray);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+/* checkbox rows */
+.check {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* the real input is hidden; .box is the custom checkbox */
+.check input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.box {
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.check input:checked + .box {
+  background-color: var(--red);
+  border-color: var(--red);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-6.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 12px;
+}
+
+/* keyboard focus */
+.check input:focus-visible + .box {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.label {
+  color: white;
+}
+
+/* muted hint: the city next to a venue, "before 12:00" next to a time band */
+.check small {
+  color: var(--text-gray);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* date chips */
+.dates {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 37px;
+  padding: 0.4rem 0;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-gray);
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.day b {
+  color: white;
+  font-size: 11px;
+}
+
+.day_active {
+  background: var(--red);
+}
+
+.day_active span {
+  color: white;
+}
+
+/* "N filters active" (also works as clear-all) */
+.active_Filters {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-gray);
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.clear {
+  display: block;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 400;
+  border: 1px solid white;
+  border-radius: 50px;
+  width: 100%;
+  padding: 8px;
+}
+
+.clear:disabled {
+  cursor: default;
+  display: none;
+}
+
+.clear:not(:disabled):hover {
+  color: white;
+  border: 1px solid var(--text-gray);
+  transition: ease 0.3s;
+}

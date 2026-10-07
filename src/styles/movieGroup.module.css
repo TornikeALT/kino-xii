@@ -1,0 +1,61 @@
+.group {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.group:first-of-type {
+  padding-top: 0;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.poster {
+  width: 40px;
+  height: 58px;
+  border-radius: 4px;
+  object-fit: cover;
+  background: var(--bg-semmi-dark);
+  flex-shrink: 0;
+}
+
+.title_row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.title_row h3 {
+  margin: 0;
+  color: white;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.age {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(238, 46, 17, 0.15);
+  color: var(--red);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.header p {
+  margin: 4px 0 0;
+  color: var(--text-gray);
+  font-size: 11px;
+}
+
+/* showtimes: one horizontal row that scrolls */
+.cards {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+}

@@ -1,0 +1,86 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-shrink: 0;
+  width: 252px;
+  box-sizing: border-box;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--bg-semmi-dark);
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.card:hover:not(:disabled) {
+  outline: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.top,
+.middle,
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.time {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.format {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #2a2c3d;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.language {
+  color: var(--text-gray);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.seats {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #3ddc84;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.seats_low {
+  color: var(--red);
+}
+
+.venue {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.bottom b {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* sold out: still visible, but dimmed */
+.sold {
+  cursor: not-allowed;
+}
+
+.sold > * {
+  opacity: 0.4;
+}
+
+.sold_label {
+  color: var(--text-gray);
+  font-size: 10px;
+  white-space: nowrap;
+}
