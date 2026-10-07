@@ -139,6 +139,19 @@ export async function searchMovies(query, options = {}) {
 
   return body.data;
 }
+// GET MOVIE
+
+export async function getMovie(slug) {
+  const response = await fetch(`${BASE_URL}/movies/${slug}`);
+
+  if (!response.ok) {
+    throw new Error("Failed To load movie");
+  }
+
+  const data = await response.json();
+
+  return data.data;
+}
 
 // PROTECTED REQUESTS
 export async function apiFetch(path, options = {}) {

@@ -52,7 +52,6 @@ function NavBar() {
                 className={styles.clear_btn}
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => setSearch("")}
-                aria-label="Clear search"
               >
                 ✕
               </button>

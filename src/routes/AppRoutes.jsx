@@ -13,7 +13,7 @@ function AppRoutes() {
       <Route element={<MainLayOut />}>
         <Route index element={<HomePage />} />
         <Route path="sessions" element={<SessionsPage />} />
-        <Route path="movie/:id" element={<MovieDetailsPage />} />
+        <Route path="movies/:slug" element={<MovieDetailsPage />} />
 
         <Route path="profile" element={<ProfilePage />}>
           <Route index element={<PersonalInfo />} />

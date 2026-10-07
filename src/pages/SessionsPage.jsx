@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import FiltersSidebar from "../components/FiltersSidebar";
 import MovieGroup from "../components/MovieGroup";
 import {
@@ -31,7 +31,7 @@ function pageList(current, last) {
 
 function SessionsPage() {
   const [params, setParams] = useSearchParams();
-
+  const navigate = useNavigate();
   const [options, setOptions] = useState(null);
   const [groups, setGroups] = useState([]); // [{ movie, sessions }]
   const [meta, setMeta] = useState({});
@@ -139,7 +139,7 @@ function SessionsPage() {
     setParams(next);
   }
   function handleSelectSession(session) {
-    console.log("selected session", session.id); // booking modal comes next
+    navigate(`/movies/${session.movie.slug}`);
   }
   const lastPage = meta.lastPage ?? 1;
 
