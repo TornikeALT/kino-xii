@@ -123,8 +123,8 @@ export async function updateProfileRequest({
 }
 
 // SEARCH MOVIES
-export async function searchMovies(query) {
-  const res = await apiFetch(`/search?q=${encodeURIComponent(query)}`);
+export async function searchMovies(query, options = {}) {
+  const res = await apiFetch(`/search?q=${encodeURIComponent(query)}`, options);
 
   const body = await res.json().catch(() => ({}));
 

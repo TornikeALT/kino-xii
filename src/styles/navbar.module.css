@@ -102,3 +102,20 @@
     0 0 4px rgba(0, 0, 0, 0.8),
     0 0 2px rgba(0, 0, 0, 1);
 }
+/* test bellow */
+.search_input .clear_btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 11px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border: none;
+}
