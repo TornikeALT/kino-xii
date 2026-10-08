@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import styles from "../styles/featured.module.css";
 import ticket from "../images/icons/ticket.png";
+import { useNavigate } from "react-router";
 
 function Featured() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://api.kinoxii.redberryinternship.ge/api/movies/featured")
@@ -46,6 +48,7 @@ function Featured() {
   }, [currentIndex, movies.length]);
 
   const movie = movies[currentIndex];
+  // console.log(movie.slug);
 
   if (loading) {
     return (
@@ -108,11 +111,19 @@ function Featured() {
         <p className={styles.synopsis}>{movie.synopsis}</p>
 
         <div className={styles.actions}>
-          <div className={styles.buy}>
+          <div
+            className={styles.buy}
+            onClick={() => navigate(`/movies/${movie.slug}`)}
+          >
             <img src={ticket} alt="ticket" />
             <span>Buy tickets</span>
           </div>
-          <button className={styles.secondary}>All sessions</button>
+          <button
+            className={styles.secondary}
+            onClick={() => navigate("/sessions")}
+          >
+            All sessions
+          </button>
         </div>
       </div>
       <div className={styles.controls}>
