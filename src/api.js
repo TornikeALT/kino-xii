@@ -153,6 +153,26 @@ export async function getMovie(slug) {
   return data.data;
 }
 
+// GET MY TICKETS
+export async function getTickets(filter) {
+  const query = filter ? `?filter=${filter}` : "";
+
+  const res = await apiFetch(`/tickets${query}`);
+
+  const body = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    const error = new Error(body.message || "Could not load tickets");
+
+    error.status = res.status;
+    error.errors = body.errors || {};
+
+    throw error;
+  }
+
+  return body.data;
+}
+
 // PROTECTED REQUESTS
 export async function apiFetch(path, options = {}) {
   const token = getToken();

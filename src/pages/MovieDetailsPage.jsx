@@ -44,7 +44,7 @@ function MovieDetailsPage() {
 
   // load the movie
   useEffect(() => {
-    async function loadMoive() {
+    async function loadMovie() {
       try {
         setLoading(true);
         setError("");
@@ -56,7 +56,7 @@ function MovieDetailsPage() {
         setLoading(false);
       }
     }
-    loadMoive();
+    loadMovie();
   }, [slug]);
 
   // load the sessions of the selected date
