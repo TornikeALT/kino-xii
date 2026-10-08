@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/playingNow.module.css";
+import { useNavigate } from "react-router";
 
 function PlayingNowCard() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://api.kinoxii.redberryinternship.ge/api/movies/now-playing")
@@ -47,7 +49,9 @@ function PlayingNowCard() {
     <>
       <div className={styles.navigation}>
         <h2>NOW PLAYING</h2>
-        <h3 className={styles.see_all}>See All</h3>
+        <h3 className={styles.see_all} onClick={() => navigate("/sessions")}>
+          See All
+        </h3>
       </div>
       <div className={styles.card_wrapper}>
         {movies.map((movie) => {
@@ -61,7 +65,9 @@ function PlayingNowCard() {
               <span className={styles.age}>{movie.ageRating.code}</span>
               <div className={styles.price_buy}>
                 <span className={styles.price}>From ₾ {movie.fromPrice}</span>
-                <button> Buy Ticket</button>
+                <button onClick={() => navigate(`movies/${movie.slug}`)}>
+                  Buy Ticket
+                </button>
               </div>
             </div>
           );
