@@ -1,0 +1,81 @@
+.sessions {
+  flex: 1;
+  min-width: 0;
+  color: white;
+}
+
+.sessions h2 {
+  margin: 0 0 1.25rem;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.dates {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 80px;
+  padding: 0.9rem 0;
+  border: none;
+  border-radius: 12px;
+  background: var(--bg-semmi-dark);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.day b {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.day_active {
+  background: var(--red);
+}
+
+.venue {
+  margin-bottom: 1.75rem;
+}
+
+.venue h3 {
+  margin: 0 0 0.75rem;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.halls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.hall {
+  padding: 0.9rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.hall p {
+  margin: 0 0 0.6rem;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tickets {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.status {
+  color: var(--text-gray);
+  font-size: 13px;
+}

@@ -1,0 +1,49 @@
+.sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  color: white;
+}
+
+.sidebar h2 {
+  margin: 0 0 1.25rem;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.row {
+  margin-bottom: 1rem;
+}
+
+.row span {
+  color: var(--text-gray);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.row p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.note {
+  margin-top: 1.5rem;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(255, 138, 0, 0.1);
+  color: #ff8a00;
+}
+
+.note span {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.note p {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+}

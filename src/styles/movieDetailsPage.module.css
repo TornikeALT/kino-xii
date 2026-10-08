@@ -1,0 +1,116 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 566px;
+  padding: 89px 0 2.5rem;
+  box-sizing: border-box;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 8, 22, 0.55) 0%,
+    rgba(5, 8, 22, 0.15) 35%,
+    rgba(5, 8, 22, 0.75) 100%
+  );
+}
+
+.hero_content {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.poster {
+  width: 289px;
+  height: 374px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.movie_info {
+  max-width: 640px;
+  color: white;
+}
+
+.now_playing {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(238, 46, 17, 0.2);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.movie_info h1 {
+  margin: 0.75rem 0;
+  font-size: 40px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.movie_info p {
+  margin: 0 0 1rem;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.movie_meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.age {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(238, 46, 17, 0.2);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.body {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: 3rem 0 4rem;
+  box-sizing: border-box;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero,
+.body {
+  position: relative;
+}

@@ -1,21 +1,54 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getMovie } from "../api";
+import { apiFetch, getMovie } from "../api";
+import MovieSessions from "../components/MovieSessions";
+import MovieDetailsSidebar from "../components/MovieDetailsSidebar";
+import styles from "../styles/movieDetailsPage.module.css";
+import timer from "../images/icons/timer.png";
+
+// the next 7 days, for the date buttons
+function getNextDays(count) {
+  const days = [];
+
+  for (let i = 0; i < count; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() + i);
+
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+
+    days.push({
+      iso: `${year}-${month}-${day}`,
+      weekday: d.toLocaleDateString("en-US", { weekday: "short" }),
+      number: d.getDate(),
+    });
+  }
+
+  return days;
+}
 
 function MovieDetailsPage() {
   const { slug } = useParams();
+
+  const days = getNextDays(7);
+
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const [date, setDate] = useState(days[0].iso); // starts on today
+  const [venues, setVenues] = useState([]);
+  const [sessionsLoading, setSessionsLoading] = useState(true);
+  const [sessionsError, setSessionsError] = useState(false);
+
+  // load the movie
   useEffect(() => {
     async function loadMoive() {
       try {
         setLoading(true);
         setError("");
-
         const data = await getMovie(slug);
-
         setMovie(data);
       } catch (error) {
         setError(error.message);
@@ -25,6 +58,41 @@ function MovieDetailsPage() {
     }
     loadMoive();
   }, [slug]);
+
+  // load the sessions of the selected date
+  useEffect(() => {
+    if (!movie || movie.isComingSoon) return;
+
+    let ignore = false; // so an old response can't overwrite a newer one
+
+    async function loadSessions() {
+      try {
+        setSessionsLoading(true);
+        setSessionsError(false);
+
+        const res = await apiFetch(`/movies/${slug}/sessions?date=${date}`);
+        if (!res.ok) throw new Error("Failed to load sessions");
+
+        const body = await res.json();
+
+        if (!ignore) setVenues(body.data);
+      } catch {
+        if (!ignore) setSessionsError(true);
+      } finally {
+        if (!ignore) setSessionsLoading(false);
+      }
+    }
+
+    loadSessions();
+
+    return () => {
+      ignore = true;
+    };
+  }, [movie, slug, date]);
+
+  function handleSelectSession(session) {
+    console.log("selected session", session.id); // booking comes next
+  }
 
   if (loading) {
     return <p>...loading</p>;
@@ -36,7 +104,58 @@ function MovieDetailsPage() {
     return <p>Movie not found</p>;
   }
 
-  return <p style={{ color: "white", fontSize: "50px" }}>{movie.title}</p>;
+  return (
+    <>
+      <section
+        className={styles.hero}
+        style={{
+          backgroundImage: `url(${movie.backdropUrl})`,
+        }}
+      >
+        <div className={`container ${styles.hero_content}`}>
+          <img
+            src={movie.posterUrl}
+            alt={movie.title}
+            className={styles.poster}
+          />
+
+          <div className={styles.movie_info}>
+            <span className={styles.now_playing}>
+              {movie.isComingSoon ? "COMING SOON" : "NOW PLAYING"}
+            </span>
+
+            <h1>{movie.title}</h1>
+
+            <p>{movie.synopsis}</p>
+
+            <div className={styles.movie_meta}>
+              <span className={styles.age}>{movie.ageRating.code}</span>
+              <span className={styles.chip}>
+                <img src={timer} alt="timer" />
+                {movie.runtimeMinutes} Min
+              </span>
+              <span className={styles.chip}>{movie.formats[0]?.name}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className={`container ${styles.body}`}>
+        <MovieSessions
+          days={days}
+          date={date}
+          onDateChange={setDate}
+          venues={venues}
+          loading={sessionsLoading}
+          error={sessionsError}
+          isComingSoon={movie.isComingSoon}
+          onSelect={handleSelectSession}
+        />
+
+        <MovieDetailsSidebar movie={movie} />
+      </div>
+    </>
+  );
 }
 
 export default MovieDetailsPage;
