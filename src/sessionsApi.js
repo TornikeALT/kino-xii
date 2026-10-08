@@ -34,7 +34,7 @@ export async function getSessionsRequest(queryString, signal) {
   return handleResponse(res, "Could not load sessions");
 }
 
-// date helpers (local time; toISOString() would shift the day in Tbilisi)
+// date helpers (local time; toISOString() would shift the day
 export function toISODate(d) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");

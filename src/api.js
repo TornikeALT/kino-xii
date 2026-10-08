@@ -153,6 +153,22 @@ export async function getMovie(slug) {
   return data.data;
 }
 
+//GET NOTIFICATION
+
+export async function getNotification(slug) {
+  const response = await apiFetch(`/movies/${slug}/notify`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed To get notification");
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
 // GET MY TICKETS
 export async function getTickets(filter) {
   const query = filter ? `?filter=${filter}` : "";

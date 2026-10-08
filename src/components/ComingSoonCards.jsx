@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "../styles/comingSoonCard.module.css";
 import bell from "../images/icons/bell.png";
+import { getNotification } from "../api";
 
 function ComingSoonCards() {
   const [movies, setMovies] = useState([]);
@@ -26,6 +27,14 @@ function ComingSoonCards() {
         setLoading(false);
       });
   }, []);
+
+  async function handleNotify(slug) {
+    try {
+      await getNotification(slug);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   if (loading) {
     return (
@@ -73,7 +82,10 @@ function ComingSoonCards() {
                   {movie.genres[0]?.name} · {movie.runtimeMinutes} min
                 </p>
                 <span className={styles.age}>{movie.ageRating.code}</span>
-                <div className={styles.notify}>
+                <div
+                  className={styles.notify}
+                  onClick={() => handleNotify(movie.slug)}
+                >
                   <img src={bell} alt="bell" />
                   <span>Notify Me</span>
                 </div>

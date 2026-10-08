@@ -4,7 +4,6 @@ import { getTickets } from "../api";
 import { useEffect, useState } from "react";
 
 function ProfilePage() {
-  // const ticketCount = 2; // placeholder until the tickets tab has data
   const [ticketCount, setTicketCount] = useState(0);
 
   useEffect(() => {
