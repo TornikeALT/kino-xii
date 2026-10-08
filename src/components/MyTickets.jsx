@@ -85,7 +85,6 @@ function MyTickets() {
   }
 
   const orders = tab === "upcoming" ? upcoming : past;
-  console.log(upcoming);
 
   return (
     <section>

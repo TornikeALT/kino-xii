@@ -1,8 +1,34 @@
 import { NavLink, Outlet } from "react-router";
 import styles from "../styles/profilePage.module.css";
+import { getTickets } from "../api";
+import { useEffect, useState } from "react";
 
 function ProfilePage() {
-  const ticketCount = 2; // placeholder until the tickets tab has data
+  // const ticketCount = 2; // placeholder until the tickets tab has data
+  const [ticketCount, setTicketCount] = useState(0);
+
+  useEffect(() => {
+    async function loadTickets() {
+      try {
+        const response = await getTickets();
+        console.log(response);
+
+        const count = response.reduce((total, order) => {
+          if (order.isUpcoming) {
+            return total + order.tickets.length;
+          }
+
+          return total;
+        }, 0);
+
+        setTicketCount(count);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    loadTickets();
+  }, []);
 
   const tabClass = ({ isActive }) =>
     `${styles.tab} ${isActive ? styles.tab_active : ""}`;
