@@ -104,11 +104,15 @@ function Search({ query, isFocused, onClose }) {
           {visibleResults.map((movie) => (
             <li key={movie.id}>
               <Link
-                to={`/movie/${movie.id}`}
+                to={`/movies/${movie.slug}`}
                 className={styles.row}
                 onClick={onClose}
               >
-                <img src={movie.posterUrl} alt="" className={styles.poster} />
+                <img
+                  src={movie.posterUrl}
+                  alt="poster"
+                  className={styles.poster}
+                />
 
                 <div className={styles.info}>
                   <p className={styles.title}>{movie.title}</p>
