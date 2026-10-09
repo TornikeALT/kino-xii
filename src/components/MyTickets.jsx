@@ -67,7 +67,7 @@ function MyTickets() {
     try {
       setRefundingId(order.id);
 
-      const res = await apiFetch(`/orders/${order.id}/refund`, {
+      const res = await apiFetch(`/orders/${order.reference}/refund`, {
         method: "POST",
       });
 

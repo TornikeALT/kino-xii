@@ -5,6 +5,10 @@ import MovieSessions from "../components/MovieSessions";
 import MovieDetailsSidebar from "../components/MovieDetailsSidebar";
 import styles from "../styles/movieDetailsPage.module.css";
 import timer from "../images/icons/timer.png";
+import { useNavigate } from "react-router";
+import { useAuth } from "../context/AuthContext";
+import { useModal } from "../context/ModalContext";
+import BookingModal from "../modals/BookingModal";
 
 // the next 7 days, for the date buttons
 function getNextDays(count) {
@@ -29,6 +33,10 @@ function getNextDays(count) {
 }
 
 function MovieDetailsPage() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { openLogin } = useModal();
+  const [selectedSession, setSelectedSession] = useState(null);
   const { slug } = useParams();
 
   const days = getNextDays(7);
@@ -91,7 +99,18 @@ function MovieDetailsPage() {
   }, [movie, slug, date]);
 
   function handleSelectSession(session) {
-    console.log("selected session", session.id); // booking comes next
+    if (!user) {
+      openLogin(); // booking needs a logged in user
+      return;
+    }
+
+    if (!user.profileComplete) {
+      alert("Complete your profile to book tickets.");
+      navigate("/profile");
+      return;
+    }
+
+    setSelectedSession(session);
   }
 
   if (loading) {
@@ -154,6 +173,13 @@ function MovieDetailsPage() {
 
         <MovieDetailsSidebar movie={movie} />
       </div>
+      {selectedSession && (
+        <BookingModal
+          session={selectedSession}
+          movie={movie}
+          onClose={() => setSelectedSession(null)}
+        />
+      )}
     </>
   );
 }

@@ -84,7 +84,9 @@ function MovieSessions({
                         <SessionTicket
                           key={session.id}
                           session={session}
-                          onSelect={onSelect}
+                          onSelect={(s) =>
+                            onSelect({ ...s, venue: item.venue })
+                          }
                         />
                       ))}
                     </div>
