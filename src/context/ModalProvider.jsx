@@ -4,6 +4,16 @@ import { ModalContext } from "./ModalContext.jsx";
 export default function ModalProvider({ children }) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [selectedHall, setSelectedHall] = useState(null);
+  const [pendingSession, setPendingSession] = useState(null);
+
+  function openSeats(hall) {
+    setSelectedHall(hall);
+  }
+
+  function closeSeats() {
+    setSelectedHall(null);
+  }
 
   const openLogin = () => {
     setIsLoginOpen(true);
@@ -26,6 +36,11 @@ export default function ModalProvider({ children }) {
         isRegisterOpen,
         openSignUp,
         closeRegister,
+        openSeats,
+        closeSeats,
+        selectedHall,
+        pendingSession,
+        setPendingSession,
       }}
     >
       {children}

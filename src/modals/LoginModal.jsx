@@ -8,7 +8,7 @@ import reject from "../images/icons/reject.png";
 import styles from "../styles/loginModal.module.css";
 
 function LoginModal() {
-  const { isLoginOpen, closeLogin, openSignUp } = useModal();
+  const { isLoginOpen, closeLogin, openSignUp, setPendingSession } = useModal();
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -35,6 +35,7 @@ function LoginModal() {
 
   function handleClose() {
     resetForm();
+    setPendingSession(null);
     closeLogin();
   }
 
@@ -52,6 +53,7 @@ function LoginModal() {
 
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoginOpen]);
 
   if (!isLoginOpen) return null;

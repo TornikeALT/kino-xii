@@ -1,4 +1,7 @@
 import SessionTicket from "./SessionTicket";
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useModal } from "../context/ModalContext";
 import styles from "../styles/movieSessions.module.css";
 
 function groupByHall(sessions) {
@@ -26,6 +29,25 @@ function MovieSessions({
   isComingSoon,
   onSelect,
 }) {
+  const { user } = useAuth();
+  const { openLogin, pendingSession, setPendingSession } = useModal();
+
+  function handleSelect(session) {
+    if (!user) {
+      setPendingSession(session); // remember what was clicked
+      openLogin();
+      return;
+    }
+    onSelect(session);
+  }
+
+  // after login, continue with the remembered session
+  useEffect(() => {
+    if (user && pendingSession) {
+      onSelect(pendingSession);
+      setPendingSession(null);
+    }
+  }, [user, pendingSession, onSelect, setPendingSession]);
   if (isComingSoon) {
     return (
       <section className={styles.sessions}>
@@ -85,7 +107,7 @@ function MovieSessions({
                           key={session.id}
                           session={session}
                           onSelect={(s) =>
-                            onSelect({ ...s, venue: item.venue })
+                            handleSelect({ ...s, venue: item.venue })
                           }
                         />
                       ))}
