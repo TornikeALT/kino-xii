@@ -4,6 +4,7 @@ import { apiFetch, getMovie } from "../api";
 import MovieSessions from "../components/MovieSessions";
 import MovieDetailsSidebar from "../components/MovieDetailsSidebar";
 import styles from "../styles/movieDetailsPage.module.css";
+import ProfileRequiredModal from "../modals/ProfileRequiredModal";
 import timer from "../images/icons/timer.png";
 import { useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
@@ -37,6 +38,7 @@ function MovieDetailsPage() {
   const { user } = useAuth();
   const { openLogin } = useModal();
   const [selectedSession, setSelectedSession] = useState(null);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const { slug } = useParams();
 
   const days = getNextDays(7);
@@ -105,8 +107,7 @@ function MovieDetailsPage() {
     }
 
     if (!user.profileComplete) {
-      alert("Complete your profile to book tickets.");
-      navigate("/profile");
+      setShowProfileModal(true);
       return;
     }
 
@@ -178,6 +179,12 @@ function MovieDetailsPage() {
           session={selectedSession}
           movie={movie}
           onClose={() => setSelectedSession(null)}
+        />
+      )}
+      {showProfileModal && (
+        <ProfileRequiredModal
+          onClose={() => setShowProfileModal(false)}
+          onConfirm={() => navigate("/profile")}
         />
       )}
     </>
