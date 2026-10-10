@@ -21,8 +21,6 @@ A cinema booking website. Users can browse films and sessions, pick seats and bu
 - React
 - React Router
 - CSS Modules
-- Vite
-- [Anything else you used]
 
 ## Getting started
 
