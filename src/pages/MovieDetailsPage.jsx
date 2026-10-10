@@ -140,6 +140,14 @@ function MovieDetailsPage() {
 
     setSelectedSession(session);
   }
+  // the message when the logged in user is too young for this film
+
+  function getBlockedMessage(movie) {
+    if (!user || user.age == null) return "";
+    if (user.age >= movie.ageRating.minAge) return "";
+
+    return `This film is rated ${movie.ageRating.code}. You cannot buy tickets for it with this account.`;
+  }
 
   if (loading) {
     return <p>...loading</p>;
@@ -147,9 +155,11 @@ function MovieDetailsPage() {
   if (error) {
     return <p>{error}</p>;
   }
+
   if (!movie) {
     return <p>Movie not found</p>;
   }
+  const blockedMessage = getBlockedMessage(movie);
 
   return (
     <>
@@ -196,6 +206,7 @@ function MovieDetailsPage() {
           loading={sessionsLoading}
           error={sessionsError}
           isComingSoon={movie.isComingSoon}
+          blockedMessage={blockedMessage}
           onSelect={handleSelectSession}
         />
 

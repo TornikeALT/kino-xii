@@ -79,3 +79,12 @@
   color: var(--text-gray);
   font-size: 13px;
 }
+.blocked_note {
+  margin: 0 0 1.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  background: rgba(238, 46, 17, 0.12);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 600;
+}

@@ -1,5 +1,5 @@
-import SessionTicket from "./SessionTicket";
 import { useEffect } from "react";
+import SessionTicket from "./SessionTicket";
 import { useAuth } from "../context/AuthContext";
 import { useModal } from "../context/ModalContext";
 import styles from "../styles/movieSessions.module.css";
@@ -28,6 +28,7 @@ function MovieSessions({
   error,
   isComingSoon,
   onSelect,
+  blockedMessage,
 }) {
   const { user } = useAuth();
   const { openLogin, pendingSession, setPendingSession } = useModal();
@@ -48,6 +49,7 @@ function MovieSessions({
       setPendingSession(null);
     }
   }, [user, pendingSession, onSelect, setPendingSession]);
+
   if (isComingSoon) {
     return (
       <section className={styles.sessions}>
@@ -55,6 +57,16 @@ function MovieSessions({
         <p className={styles.status}>
           This title isn't showing yet. Sessions will appear once it opens.
         </p>
+      </section>
+    );
+  }
+
+  // the user is too young for this film: show only the message
+  if (blockedMessage) {
+    return (
+      <section className={styles.sessions}>
+        <h2>Sessions</h2>
+        <p className={styles.blocked_note}>{blockedMessage}</p>
       </section>
     );
   }

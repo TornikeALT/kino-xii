@@ -1,16 +1,15 @@
 import styles from "../styles/sessionTicket.module.css";
 import ticket from "../images/icons/ticket_gray.png";
 
-function SessionTicket({ session, onSelect }) {
+function SessionTicket({ session, blocked, onSelect }) {
   const lowSeats = session.seatsLeft <= 5;
+  const disabled = session.isSoldOut || blocked;
 
   return (
     <button
       type="button"
-      className={
-        session.isSoldOut ? `${styles.ticket} ${styles.sold}` : styles.ticket
-      }
-      disabled={session.isSoldOut}
+      className={disabled ? `${styles.ticket} ${styles.sold}` : styles.ticket}
+      disabled={disabled}
       onClick={() => onSelect(session)}
     >
       <div className={styles.left}>
