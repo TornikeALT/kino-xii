@@ -68,7 +68,9 @@ function ComingSoonCards() {
       <section className={styles.coming_soon}>
         <div className={styles.navigation}>
           <h2>COMING SOON...</h2>
-          <h3 className={styles.see_all}>See all</h3>
+          <h3 className={styles.see_all} onClick={() => navigate("/sessions")}>
+            See all
+          </h3>
         </div>
 
         <div className={styles.card_wrapper}>
