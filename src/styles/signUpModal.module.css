@@ -8,7 +8,6 @@
   background-color: var(--bg-dark);
 }
 
-/* Header */
 .modal__header {
   display: flex;
   justify-content: space-between;
@@ -36,7 +35,6 @@ h1 {
   border-radius: 8px;
 }
 
-/* Form */
 .form {
   margin-top: 26px;
   display: flex;
@@ -137,4 +135,51 @@ h1 {
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(8px);
   z-index: 1000;
+}
+
+.input_wrap {
+  position: relative;
+}
+
+.input_wrap input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 46px;
+}
+
+.icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.field .label_error {
+  color: var(--red);
+}
+
+.field input.input_error {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.error {
+  margin: 0;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.submit:disabled {
+  background-color: var(--text-blue);
+  cursor: not-allowed;
+}
+
+.submit:not(:disabled) {
+  background-color: var(--red);
+  color: white;
 }

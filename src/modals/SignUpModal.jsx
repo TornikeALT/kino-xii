@@ -4,13 +4,58 @@ import { useAuth } from "../context/AuthContext";
 
 import close from "../images/icons/close.png";
 import upload from "../images/icons/upload.png";
+import accepted from "../images/icons/green.png";
+import reject from "../images/icons/reject.png";
 import styles from "../styles/signUpModal.module.css";
 
 const MAX_AVATAR_SIZE = 2 * 1024 * 1024; // 2MB, limit size
+const AVATAR_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const MIN_LENGTH = 3;
 
-function FieldError({ messages }) {
-  if (!messages?.length) return null;
-  return <p className={styles.error}>{messages[0]}</p>; //es error satestoa
+function FieldError({ message }) {
+  if (!message) return null;
+  return <p className={styles.error}>{message}</p>;
+}
+
+// one input with its label, icon and message
+function Field({
+  id,
+  label,
+  type = "text",
+  placeholder,
+  autoComplete,
+  value,
+  onChange,
+  onBlur,
+  message,
+  isValid,
+}) {
+  return (
+    <div className={styles.field}>
+      <label htmlFor={id} className={message ? styles.label_error : ""}>
+        {label}
+      </label>
+
+      <div className={styles.input_wrap}>
+        <input
+          id={id}
+          name={id}
+          type={type}
+          placeholder={placeholder}
+          autoComplete={autoComplete}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          className={message ? styles.input_error : ""}
+        />
+
+        {isValid && <img src={accepted} alt="" className={styles.icon} />}
+        {message && <img src={reject} alt="" className={styles.icon} />}
+      </div>
+
+      <FieldError message={message} />
+    </div>
+  );
 }
 
 function SignUpModal() {
@@ -23,32 +68,37 @@ function SignUpModal() {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [avatar, setAvatar] = useState(null);
 
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [touched, setTouched] = useState({}); // fields the user already left
+  const [fieldErrors, setFieldErrors] = useState({}); // errors from the server
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    if (!isRegisterOpen) return;
+
     const handleEscape = (e) => {
       if (e.key === "Escape") {
+        resetForm();
         closeRegister();
-        // handleClose();
       }
     };
     document.addEventListener("keydown", handleEscape);
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [closeRegister]);
+  }, [isRegisterOpen, closeRegister]);
 
   function resetForm() {
     setUsername("");
     setEmail("");
-    setFieldErrors({});
-    setFormError("");
     setPassword("");
     setPasswordConfirmation("");
     setAvatar(null);
+    setTouched({});
+    setFieldErrors({});
+    setFormError("");
   }
+
   function handleClose() {
     resetForm();
     closeRegister();
@@ -56,26 +106,89 @@ function SignUpModal() {
 
   if (!isRegisterOpen) return null;
 
+  // ---------- validation ----------
+
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  function getConfirmationError() {
+    if (passwordConfirmation === "") return "Confirm your password";
+    if (passwordConfirmation !== password) return "Passwords do not match";
+    return "";
+  }
+
+  // what is wrong with each field right now ("" means fine)
+  const clientErrors = {
+    username:
+      username.trim().length < MIN_LENGTH
+        ? `At least ${MIN_LENGTH} characters`
+        : "",
+    email: isEmailValid ? "" : "Enter a valid email",
+    password:
+      password.length < MIN_LENGTH ? `At least ${MIN_LENGTH} characters` : "",
+    passwordConfirmation: getConfirmationError(),
+  };
+
+  const isFormValid = Object.values(clientErrors).every((err) => err === "");
+
+  // the message under a field: the server's one first, then ours (after the user left the field)
+  function getMessage(name, serverKey = name) {
+    const serverMessage = fieldErrors[serverKey]?.[0];
+
+    if (serverMessage) return serverMessage;
+    if (touched[name]) return clientErrors[name];
+    return "";
+  }
+
+  // green tick: the user left the field, nothing is wrong
+  function isFieldValid(name, serverKey = name) {
+    return (
+      touched[name] &&
+      clientErrors[name] === "" &&
+      !fieldErrors[serverKey]?.length
+    );
+  }
+
+  function handleBlur(name) {
+    setTouched({ ...touched, [name]: true });
+  }
+
+  // typing in a field removes the server's error for it
+  function clearServerError(key) {
+    setFieldErrors((prev) => ({ ...prev, [key]: undefined }));
+  }
+
+  // ---------- avatar ----------
+
+  function rejectAvatar(input, text) {
+    setAvatar(null);
+    input.value = "";
+    setFieldErrors((prev) => ({ ...prev, avatar: [text] }));
+  }
+
   function handleAvatarChange(e) {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > MAX_AVATAR_SIZE) {
-      setAvatar(null);
-      e.target.value = "";
-      setFieldErrors((prev) => ({
-        ...prev,
-        avatar: ["Image must be 2MB or smaller."],
-      }));
+    if (!AVATAR_TYPES.includes(file.type)) {
+      rejectAvatar(e.target, "Only JPG, PNG or WEBP images.");
       return;
     }
 
-    setFieldErrors((prev) => ({ ...prev, avatar: undefined }));
+    if (file.size > MAX_AVATAR_SIZE) {
+      rejectAvatar(e.target, "Image must be 2MB or smaller.");
+      return;
+    }
+
+    clearServerError("avatar");
     setAvatar(file);
   }
 
+  // ---------- submit ----------
+
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!isFormValid || submitting) return;
+
     setFieldErrors({});
     setFormError("");
     setSubmitting(true);
@@ -89,13 +202,10 @@ function SignUpModal() {
         avatar,
       });
 
-      setUsername("");
-      setEmail("");
       resetForm();
     } catch (err) {
       if (err.status === 422) {
         setFieldErrors(err.errors);
-        console.log(fieldErrors);
       } else {
         setFormError(err.message || "Something went wrong. Try again.");
       }
@@ -131,7 +241,12 @@ function SignUpModal() {
           />
         </header>
 
-        <form className={styles.form} id="signup-form" onSubmit={handleSubmit}>
+        <form
+          className={styles.form}
+          id="signup-form"
+          onSubmit={handleSubmit}
+          noValidate
+        >
           <div className={styles.avatar}>
             <label className={styles.avatar__btn} htmlFor="avatar">
               <img src={upload} alt="upload" />
@@ -148,70 +263,79 @@ function SignUpModal() {
               <p className={styles.avatar__hint}>
                 {avatar ? avatar.name : "JPG, PNG or WEBP"}
               </p>
-              <FieldError messages={fieldErrors.avatar} />
+              <FieldError message={fieldErrors.avatar?.[0]} />
             </div>
           </div>
 
-          <div className={styles.field}>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="User"
-              autoComplete="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-            <FieldError messages={fieldErrors.username} />
-          </div>
+          <Field
+            id="username"
+            label="Username"
+            placeholder="User"
+            autoComplete="username"
+            value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              clearServerError("username");
+            }}
+            onBlur={() => handleBlur("username")}
+            message={getMessage("username")}
+            isValid={isFieldValid("username")}
+          />
 
-          <div className={styles.field}>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="example@gmail.com"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <FieldError messages={fieldErrors.email} />
-          </div>
+          <Field
+            id="email"
+            label="Email"
+            type="email"
+            placeholder="example@gmail.com"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              clearServerError("email");
+            }}
+            onBlur={() => handleBlur("email")}
+            message={getMessage("email")}
+            isValid={isFieldValid("email")}
+          />
 
           <div className={styles.row}>
-            <div className={styles.field}>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="••••••••"
-                autoComplete="new-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <FieldError messages={fieldErrors.password} />
-            </div>
-            <div className={styles.field}>
-              <label htmlFor="confirm">Confirm password</label>
-              <input
-                type="password"
-                id="confirm"
-                name="confirm"
-                placeholder="••••••••"
-                autoComplete="new-password"
-                value={passwordConfirmation}
-                onChange={(e) => setPasswordConfirmation(e.target.value)}
-                required
-              />
+            <Field
+              id="password"
+              label="Password"
+              type="password"
+              placeholder="••••••••"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                clearServerError("password");
+              }}
+              onBlur={() => handleBlur("password")}
+              message={getMessage("password")}
+              isValid={isFieldValid("password")}
+            />
 
-              <FieldError messages={fieldErrors.password_confirmation} />
-            </div>
+            <Field
+              id="confirm"
+              label="Confirm password"
+              type="password"
+              placeholder="••••••••"
+              autoComplete="new-password"
+              value={passwordConfirmation}
+              onChange={(e) => {
+                setPasswordConfirmation(e.target.value);
+                clearServerError("password_confirmation");
+              }}
+              onBlur={() => handleBlur("passwordConfirmation")}
+              message={getMessage(
+                "passwordConfirmation",
+                "password_confirmation",
+              )}
+              isValid={isFieldValid(
+                "passwordConfirmation",
+                "password_confirmation",
+              )}
+            />
           </div>
 
           {formError && (
@@ -220,7 +344,11 @@ function SignUpModal() {
             </p>
           )}
 
-          <button type="submit" className={styles.submit} disabled={submitting}>
+          <button
+            type="submit"
+            className={styles.submit}
+            disabled={!isFormValid || submitting}
+          >
             {submitting ? "Signing up..." : "Sign up"}
           </button>
         </form>
