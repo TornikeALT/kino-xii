@@ -1,18 +1,16 @@
-import styles from "../styles/profileRequiredModal.module.css";
+import styles from "../styles/returnModal.module.css";
 
-function ProfileRequiredModal({ onClose, onConfirm }) {
+function ReturnModal({ onClose, onConfirm }) {
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <h2>Complete your profile</h2>
-        <p>Add your name, mobile number and date of birth to book tickets.</p>
-
+        <h2>Refun this order ?</h2>
         <div className={styles.buttons}>
           <button type="button" className={styles.primary} onClick={onConfirm}>
-            Go to profile
+            Yes
           </button>
           <button type="button" onClick={onClose}>
-            Not now
+            Cancel
           </button>
         </div>
       </div>
@@ -20,4 +18,4 @@ function ProfileRequiredModal({ onClose, onConfirm }) {
   );
 }
 
-export default ProfileRequiredModal;
+export default ReturnModal;

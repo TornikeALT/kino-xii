@@ -1,3 +1,4 @@
+import RefundModal from "../modals/ReturnModal";
 import { useEffect, useState } from "react";
 import { apiFetch, getTickets } from "../api";
 import styles from "../styles/myTickets.module.css";
@@ -37,6 +38,8 @@ function MyTickets() {
   const [error, setError] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
   const [refundingId, setRefundingId] = useState(null);
+  const [openRefunModal, setOpenRefundModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     async function loadTickets() {
@@ -62,8 +65,6 @@ function MyTickets() {
   }, [reloadKey]);
 
   async function handleRefund(order) {
-    if (!window.confirm("Refund this order?")) return;
-
     try {
       setRefundingId(order.id);
 
@@ -76,6 +77,8 @@ function MyTickets() {
         throw new Error(body.message || "Refund failed");
       }
 
+      setOpenRefundModal(false);
+      setSelectedOrder(null);
       setReloadKey((key) => key + 1);
     } catch (err) {
       alert(err.message);
@@ -193,7 +196,10 @@ function MyTickets() {
                         disabled={
                           !order.isRefundable || refundingId === order.id
                         }
-                        onClick={() => handleRefund(order)}
+                        onClick={() => {
+                          setSelectedOrder(order);
+                          setOpenRefundModal(true);
+                        }}
                       >
                         {refundingId === order.id ? "Refunding..." : "Refund"}
                       </button>
@@ -214,6 +220,15 @@ function MyTickets() {
             </article>
           );
         })}
+      {openRefunModal && selectedOrder && (
+        <RefundModal
+          onClose={() => {
+            setOpenRefundModal(false);
+            setSelectedOrder(null);
+          }}
+          onConfirm={() => handleRefund(selectedOrder)}
+        />
+      )}
     </section>
   );
 }
