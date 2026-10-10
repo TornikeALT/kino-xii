@@ -19,7 +19,7 @@ function Search({ query, isFocused, onClose }) {
       return;
     }
 
-    const controller = new AbortController(); // waikitxe ras shveba
+    const controller = new AbortController(); 
 
     const timer = setTimeout(async () => {
       setStatus("loading");
