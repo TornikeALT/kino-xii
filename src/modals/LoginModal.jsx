@@ -22,7 +22,7 @@ function LoginModal() {
   const isPasswordValid = password.length >= 3;
   const isFormValid = isEmailValid && isPasswordValid;
 
-  const showEmailError = emailTouched && email.length > 0 && !isEmailValid;
+  const showEmailError = emailTouched && !isEmailValid;
   const showPasswordError = passwordTouched && !isPasswordValid;
 
   function resetForm() {
