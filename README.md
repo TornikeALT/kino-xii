@@ -2,7 +2,7 @@
 
 A cinema booking website. Users can browse films and sessions, pick seats and buy tickets. It was built as part of the Redberry internship, following the Figma design and the provided API.
 
-![Home page](screenshots/home.png)
+![Home page](screenshots/book.png)
 ![Seat selection](screenshots/screen.png)
 
 ## Features
