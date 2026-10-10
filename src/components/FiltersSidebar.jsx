@@ -44,7 +44,7 @@ function FiltersSidebar({
   bands,
   date,
   activeFilters,
-  onToggle, // (paramKey, value)
+  onToggle,
   onDate,
   onClear,
 }) {

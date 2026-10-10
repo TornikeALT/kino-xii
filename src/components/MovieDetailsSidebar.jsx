@@ -1,6 +1,5 @@
 import styles from "../styles/movieDetailsSidebar.module.css";
 
-// director and cast might be a string or an array, so handle both
 function toText(value) {
   if (Array.isArray(value)) {
     return value.map((item) => item.name ?? item).join(", ");
@@ -9,7 +8,7 @@ function toText(value) {
 }
 
 function Row({ label, value }) {
-  if (!value) return null; // hide the row if the API has no data for it
+  if (!value) return null;
 
   return (
     <div className={styles.row}>
@@ -24,7 +23,7 @@ function MovieDetailsSidebar({ movie }) {
     day: "numeric",
     month: "long",
     year: "numeric",
-    timeZone: "UTC", // keeps the date from shifting a day
+    timeZone: "UTC",
   });
 
   const formats = movie.formats.map((format) => format.name).join(", ");
