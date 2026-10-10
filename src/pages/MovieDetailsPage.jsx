@@ -100,6 +100,33 @@ function MovieDetailsPage() {
     };
   }, [movie, slug, date]);
 
+  // remember this movie for the "Recently viewed" section on the home page
+  useEffect(() => {
+    if (!movie) return;
+
+    const item = {
+      slug: movie.slug,
+      title: movie.title,
+      posterUrl: movie.posterUrl,
+      genre: movie.genres?.[0]?.name,
+      runtimeMinutes: movie.runtimeMinutes,
+      ageRating: movie.ageRating?.code,
+    };
+
+    let old = [];
+    try {
+      old = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+    } catch {
+      old = [];
+    }
+
+    // newest first, no duplicates, keep the last 6
+    const others = old.filter((m) => m.slug !== item.slug);
+    const updated = [item, ...others].slice(0, 6);
+
+    localStorage.setItem("recentlyViewed", JSON.stringify(updated));
+  }, [movie]);
+
   function handleSelectSession(session) {
     if (!user) {
       openLogin(); // booking needs a logged in user

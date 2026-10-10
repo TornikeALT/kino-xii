@@ -1,0 +1,81 @@
+.section {
+  padding: 2rem 0;
+}
+
+.section h2 {
+  margin: 0 0 1rem;
+  color: white;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: hidden;
+  padding-bottom: 0.5rem;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  max-width: 330px;
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 12px;
+  background: var(--bg-semmi-dark);
+  color: white;
+  text-decoration: none;
+}
+
+.card:hover {
+  outline: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.poster {
+  width: 87px;
+  height: 67px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.info {
+  min-width: 0;
+}
+
+.info h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.info p {
+  margin: 4px 0 6px;
+  color: var(--text-gray);
+  font-size: 12px;
+}
+
+.age {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(238, 46, 17, 0.15);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 600;
+}
+.section {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  padding: 2rem 0;
+}

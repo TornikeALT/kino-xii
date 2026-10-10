@@ -25,7 +25,7 @@ export default function AuthProvider({ children }) {
 
   // REFRESH USER FROM SERVER (once, on app load)
   useEffect(() => {
-    if (!getToken()) return; // not logged in, nothing to refresh
+    if (!getToken()) return;
 
     let cancelled = false;
 
@@ -34,16 +34,15 @@ export default function AuthProvider({ children }) {
         const res = await apiFetch("/me");
 
         if (res.status === 401) {
-          // apiFetch already cleared the token; clear the saved user too
           localStorage.removeItem("user");
           if (!cancelled) setUser(null);
           return;
         }
 
-        if (!res.ok) return; // server hiccup: keep the saved user for now
+        if (!res.ok) return;
 
         const body = await res.json();
-        const fresh = body.data?.user ?? body.data; // adjust to the real shape
+        const fresh = body.data?.user ?? body.data;
 
         if (!cancelled && fresh) {
           localStorage.setItem("user", JSON.stringify(fresh));
@@ -98,6 +97,7 @@ export default function AuthProvider({ children }) {
     } finally {
       clearToken();
       localStorage.removeItem("user");
+      localStorage.removeItem("recentlyViewed");
       setUser(null);
     }
   }, []);
