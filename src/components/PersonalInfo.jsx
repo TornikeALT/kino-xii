@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { apiFetch } from "../api";
 import { useAuth } from "../context/AuthContext";
+import { apiFetch } from "../api";
 import styles from "../styles/personalInfo.module.css";
 
 const firstMessage = (m) => (Array.isArray(m) ? m[0] : m);
@@ -8,30 +8,34 @@ const firstMessage = (m) => (Array.isArray(m) ? m[0] : m);
 function PersonalInfo() {
   const { user, updateProfile } = useAuth();
 
-  const [form, setForm] = useState({
-    fullName: user?.fullName || "",
-    mobileNumber: user?.mobileNumber || "",
-    dateOfBirth: user?.dateOfBirth || "",
-    preferredVenueId: user?.preferredVenueId ?? "",
-  });
+  const [edits, setEdits] = useState({});
   const [venues, setVenues] = useState([]);
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
+  const saved = {
+    fullName: user?.fullName || "",
+    mobileNumber: user?.mobileNumber || "",
+    dateOfBirth: user?.dateOfBirth || "",
+    preferredVenueId: user?.preferredVenue?.id ?? "",
+  };
+
+  const form = { ...saved, ...edits };
+
+  // load the venues for the dropdown
   useEffect(() => {
     apiFetch("/filter-options")
       .then((res) => res.json())
-      .then((body) => {
-        setVenues(body.data?.venues ?? []);
-      })
+      .then((body) => setVenues(body.data?.venues ?? []))
       .catch(() => {});
   }, []);
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: undefined }));
+
+    setEdits({ ...edits, [name]: value });
+    setErrors({ ...errors, [name]: undefined });
   }
 
   async function handleSubmit(e) {
@@ -42,11 +46,11 @@ function PersonalInfo() {
 
     try {
       await updateProfile(form);
+      setEdits({});
       setMessage("Changes saved");
     } catch (err) {
       setErrors(err.errors || {});
 
-      // no field-level errors (e.g. network or 401): show the general message
       if (!err.errors || Object.keys(err.errors).length === 0) {
         setMessage(err.message);
       }
