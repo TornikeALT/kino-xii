@@ -19,13 +19,13 @@ function Search({ query, isFocused, onClose }) {
       return;
     }
 
-    const controller = new AbortController(); // waikitxe ras shveba
+    const controller = new AbortController();
 
     const timer = setTimeout(async () => {
       setStatus("loading");
 
       try {
-        const body = await searchMovies(query, {
+        const body = await searchMovies(trimmed, {
           signal: controller.signal,
         });
         const list = Array.isArray(body) ? body : (body?.results ?? []);
@@ -120,7 +120,7 @@ function Search({ query, isFocused, onClose }) {
                     {[
                       movie.kind,
                       movie.ageRating.code,
-                      movie.runtimeMinutes && "min",
+                      movie.runtimeMinutes && `${movie.runtimeMinutes} min`,
                     ]
                       .filter(Boolean)
                       .join(" · ")}
