@@ -3,11 +3,15 @@ import styles from "../styles/comingSoonCard.module.css";
 import bell from "../images/icons/bell.png";
 import { getNotification } from "../api";
 import { useNavigate } from "react-router";
+import { useAuth } from "../context/AuthContext";
+import { useModal } from "../context/ModalContext";
 
 function ComingSoonCards() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
+  const { openLogin } = useModal();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +35,10 @@ function ComingSoonCards() {
   }, []);
 
   async function handleNotify(slug) {
+    if (!user) {
+      openLogin();
+      return;
+    }
     try {
       await getNotification(slug);
     } catch (error) {
