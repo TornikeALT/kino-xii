@@ -10,7 +10,6 @@ function ProfilePage() {
     async function loadTickets() {
       try {
         const response = await getTickets();
-        console.log(response);
 
         const count = response.reduce((total, order) => {
           if (order.isUpcoming) {

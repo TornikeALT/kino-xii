@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import SessionsSkeleton from "../components/SessionsSkeleton";
 import FiltersSidebar from "../components/FiltersSidebar";
 import MovieGroup from "../components/MovieGroup";
 import {
@@ -189,7 +190,7 @@ function SessionsPage() {
             </label>
           </div>
 
-          {status === "loading" && <p className={styles.status}>Loading...</p>}
+          {status === "loading" && <SessionsSkeleton />}
           {status === "error" && (
             <p className={styles.status}>Could not load sessions. Try again.</p>
           )}

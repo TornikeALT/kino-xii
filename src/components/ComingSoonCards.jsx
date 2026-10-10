@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import styles from "../styles/comingSoonCard.module.css";
 import bell from "../images/icons/bell.png";
 import { getNotification } from "../api";
+import { useNavigate } from "react-router";
 
 function ComingSoonCards() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://api.kinoxii.redberryinternship.ge/api/movies/coming-soon")
@@ -68,6 +70,7 @@ function ComingSoonCards() {
                 src={movie.posterUrl}
                 alt={movie.title}
                 className={styles.poster}
+                onClick={() => navigate(`/movies/${movie.slug}`)}
               />
               <div className={styles.details}>
                 <h4 className={styles.release}>
