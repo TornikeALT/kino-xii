@@ -85,6 +85,7 @@ function BookingModal({ session, movie, onClose }) {
   const [warning, setWarning] = useState(""); // banner: expired, seat taken...
 
   const [step, setStep] = useState("seats"); // "seats", "checkout" or "done"
+  const [lostCodes, setLostCodes] = useState([]); // seats someone else took, drawn as sold
   const [holding, setHolding] = useState(false);
   const [hold, setHold] = useState(null);
   const [expiresAt, setExpiresAt] = useState(null);
@@ -255,15 +256,19 @@ function BookingModal({ session, movie, onClose }) {
   // someone else took some of the seats: drop those, keep the rest
   function handleContested(codes) {
     const names = codes.length > 0 ? codes.join(", ") : "A seat";
+    const verb = codes.length > 1 ? "were" : "was";
 
+    setLostCodes([...lostCodes, ...codes]); // drawn as sold on the map
     setSelected(selected.filter((item) => !codes.includes(item.code)));
     setHold(null);
     setExpiresAt(null);
     setSecondsLeft(null);
     setStep("seats");
     setMessage("");
-    setWarning(`${names} was just taken. Your other seats are still selected.`);
-    setReloadKey((key) => key + 1);
+    setWarning(
+      `${names} ${verb} just taken. Your other seats are still selected.`,
+    );
+    setReloadKey((key) => key + 1); // refetch the hall map
   }
 
   // "Next: Checkout" holds the seats
@@ -465,7 +470,7 @@ function BookingModal({ session, movie, onClose }) {
 
             <div className={styles.receipt}>
               <div className={styles.receipt_top}>
-                <img src={s.movie.posterUrl} alt={s.movie.posterUrl} />
+                <img src={s.movie.posterUrl} alt="poster" />
                 <div>
                   <h3>{s.movie.title}</h3>
                   <p>
@@ -531,10 +536,10 @@ function BookingModal({ session, movie, onClose }) {
 
         {warning && <p className={styles.warning}>{warning}</p>}
 
-        {loading && <p className={styles.status}>Loading...</p>}
+        {loading && !options && <p className={styles.status}>Loading...</p>}
         {loadError && <p className={styles.status}>{loadError}</p>}
 
-        {!loading && !loadError && options && (
+        {!loading && options && (
           <div className={styles.body}>
             <div className={styles.left}>
               <div className={styles.tabs}>
@@ -569,7 +574,14 @@ function BookingModal({ session, movie, onClose }) {
                             <span className={styles.row_name}>{row.label}</span>
 
                             <div className={styles.row_seats}>
-                              {row.seats.map((seat, index) => {
+                              {row.seats.map((realSeat, index) => {
+                                const seat = lostCodes.includes(realSeat.code)
+                                  ? {
+                                      ...realSeat,
+                                      state: "sold",
+                                      isMine: false,
+                                    }
+                                  : realSeat;
                                 // no seat there at all: keep the space so the grid stays aligned
                                 if (seat.state === "unavailable") {
                                   return (
