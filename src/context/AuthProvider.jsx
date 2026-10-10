@@ -97,7 +97,6 @@ export default function AuthProvider({ children }) {
     } finally {
       clearToken();
       localStorage.removeItem("user");
-      localStorage.removeItem("recentlyViewed");
       setUser(null);
     }
   }, []);
